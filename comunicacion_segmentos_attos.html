@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Comunicación por Segmento · ATTOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --burgundy:#631636; --burgundy-deep:#4a0f28;
+    --cream:#F4EDE3; --cream-soft:#fbf7f1;
+    --gold:#B89B5E; --ink:#2E2E2E; --line:rgba(99,22,54,.13);
+    --green:#3f7a52; --green-bg:#eef4ef;
+    --warn:#9a3b3b; --warn-bg:#f7eceb;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--ink);
+    line-height:1.55;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:580px;margin:0 auto;padding:0 18px 48px}
+
+  header{padding:28px 0 6px;text-align:center}
+  .kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 6px}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:36px;line-height:1.02;color:var(--burgundy);margin:0}
+  .sub{font-size:13px;color:#7a6a64;margin:8px 0 0}
+
+  /* IDENTIFICADOR */
+  .finder{background:var(--burgundy);color:var(--cream);border-radius:16px;padding:20px 18px;margin-top:22px;
+    background-image:radial-gradient(circle at 100% 0,rgba(184,155,94,.22),transparent 55%)}
+  .finder .ft{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 3px}
+  .finder .fq{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:600;margin:0 0 14px;line-height:1.15}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{appearance:none;text-align:left;font:inherit;font-weight:500;font-size:14.5px;cursor:pointer;
+    background:rgba(255,255,255,.08);color:var(--cream);border:1px solid rgba(244,237,227,.25);
+    border-radius:11px;padding:13px 15px;transition:.15s}
+  .opt:active{transform:scale(.98)}
+  .opt:hover{background:rgba(255,255,255,.16);border-color:var(--gold)}
+  .finder .reset{appearance:none;background:none;border:none;color:#e7d8cf;font:inherit;font-size:12.5px;
+    text-decoration:underline;cursor:pointer;margin-top:13px;padding:0;opacity:.85}
+
+  .or{text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a89a92;font-weight:600;margin:24px 0 12px}
+
+  /* CARDS */
+  .grid{display:flex;flex-direction:column;gap:10px}
+  .card{border:1px solid var(--line);background:var(--cream-soft);border-radius:14px;padding:15px 16px;cursor:pointer;
+    display:flex;align-items:center;gap:13px;text-align:left;font:inherit;color:var(--ink);transition:.15s}
+  .card:active{transform:scale(.98)}
+  .card:hover{border-color:var(--burgundy);background:#fff}
+  .card .ic{font-size:25px;flex:0 0 auto}
+  .card .meta{flex:1}
+  .card .nm{font-weight:600;font-size:15px}
+  .card .bt{font-size:12px;color:var(--gold);font-weight:600;margin-top:1px}
+  .card .arr{color:var(--burgundy);font-size:16px;flex:0 0 auto}
+
+  /* FICHA */
+  .detail{display:none}
+  .detail.on{display:block;animation:rise .26s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .back{appearance:none;border:none;background:none;font:inherit;cursor:pointer;color:var(--burgundy);
+    font-weight:600;font-size:14px;padding:16px 0 12px;display:inline-flex;gap:6px}
+  .back:active{opacity:.6}
+  .fhead{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+  .fhead .big{font-size:34px}
+  .fhead h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;color:var(--burgundy);margin:0;line-height:1.05}
+  .buyer{display:inline-block;background:var(--gold);color:#fff;font-size:11.5px;font-weight:600;
+    letter-spacing:.04em;border-radius:999px;padding:4px 12px;margin-top:6px}
+
+  .cares{font-size:15px;color:var(--burgundy);font-style:italic;margin:16px 0 4px;line-height:1.5;
+    border-left:3px solid var(--gold);padding-left:13px}
+
+  .box{border-radius:13px;padding:15px 16px;margin-top:13px}
+  .box .bl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin:0 0 7px;display:flex;align-items:center;gap:7px}
+  .box p{margin:0;font-size:14px;line-height:1.55}
+  .box.good{background:var(--green-bg);border:1px solid rgba(63,122,82,.25)}
+  .box.good .bl{color:var(--green)}
+  .box.bad{background:var(--warn-bg);border:1px solid rgba(154,59,59,.22)}
+  .box.bad .bl{color:var(--warn)}
+  .box.neutral{background:var(--cream-soft);border:1px solid var(--line)}
+  .box.neutral .bl{color:var(--gold)}
+
+  .pitch{background:#fff;border:1px dashed var(--burgundy);border-radius:13px;padding:15px 16px;margin-top:13px}
+  .pitch .bl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 8px}
+  .pitch p{margin:0;font-size:14px;font-style:italic;color:var(--ink)}
+  .copy{appearance:none;width:100%;margin-top:12px;cursor:pointer;background:var(--burgundy);color:#fff;border:none;
+    border-radius:11px;padding:13px;font:inherit;font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+  .copy:active{transform:scale(.98);background:var(--burgundy-deep)}
+  .copy.done{background:var(--gold)}
+
+  .nextq{background:var(--burgundy);color:var(--cream);border-radius:13px;padding:15px 16px;margin-top:13px}
+  .nextq .bl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 6px}
+  .nextq p{margin:0;font-size:15px;font-weight:500}
+
+  footer{text-align:center;margin-top:28px;font-size:11px;color:#a89a92;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="home">
+    <header>
+      <p class="kicker">ATTOS · Ventas</p>
+      <h1>Cómo hablarle a cada cliente</h1>
+      <p class="sub">Identificá el tipo de cliente y mirá cómo comunicarte con él.</p>
+    </header>
+
+    <div class="finder" id="finder"></div>
+
+    <p class="or">— o elegí el segmento —</p>
+    <div class="grid" id="grid"></div>
+    <footer>ATTOS · uso interno</footer>
+  </section>
+
+  <section id="detail" class="detail">
+    <button class="back" onclick="goHome()">‹ Volver</button>
+    <div class="fhead">
+      <span class="big" id="f-ic"></span>
+      <div><h2 id="f-name"></h2><span class="buyer" id="f-buyer"></span></div>
+    </div>
+    <p class="cares" id="f-cares"></p>
+
+    <div class="box good">
+      <p class="bl">✓ Cómo hablarle</p>
+      <p id="f-tone"></p>
+    </div>
+    <div class="box bad">
+      <p class="bl">✕ Qué evitar</p>
+      <p id="f-avoid"></p>
+    </div>
+    <div class="box neutral">
+      <p class="bl">◆ Qué mostrarle primero</p>
+      <p id="f-show"></p>
+    </div>
+
+    <div class="pitch">
+      <p class="bl">Mensaje para WhatsApp</p>
+      <p id="f-wa"></p>
+      <button class="copy" id="copyBtn" onclick="copyWA()">Copiar para WhatsApp</button>
+    </div>
+
+    <div class="nextq">
+      <p class="bl">Próxima pregunta para avanzar</p>
+      <p id="f-next"></p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const SEG=[
+ {id:"joven",ic:"🌱",name:"Joven que quiere conocer",buyer:"Explorador",
+  cares:"Descubrir vinos ricos sin gastar de más y sin sentirse perdido ni juzgado.",
+  tone:"Cercano, canchero y simple, tuteándolo, de igual a igual. Cero tecnicismos: hablale de “un tinto fácil para una previa”, no de taninos. Tu rol es el amigo que sabe de vinos y lo acompaña.",
+  avoid:"Jerga de sommelier, abrumarlo con muchas opciones, ofrecerle vinos caros de entrada, y cualquier cosa que lo haga sentir ignorante. Si se siente examinado, se va.",
+  show:"Tintos jóvenes y frutados (Malbec, Bonarda), un espumante accesible para juntadas, y opciones de buena relación precio-calidad. Pasale la guía de maridaje para engancharlo.",
+  wa:"¡Hola! Buenísimo que quieras arrancar en el mundo del vino 🍷 Tranqui que para eso estamos. Contame qué solés tomar o para qué ocasión lo querés, y te armo un par de opciones ricas y a buen precio para probar. Sin vueltas.",
+  next:"¿Lo querés más para una comida o para una previa con amigos?"},
+
+ {id:"adulto",ic:"🧭",name:"Adulto que quiere conocer",buyer:"Asesorado",
+  cares:"Que lo guíen con confianza para elegir bien y sentir que compra con criterio, sin exponerse a errar.",
+  tone:"Confiable, claro y cuidado. Cálido pero prolijo, con tuteo respetuoso. Explicale lo justo para que entienda por qué le conviene algo, sin saturarlo de información.",
+  avoid:"El tono demasiado informal o “pibe”, los tecnicismos innecesarios y la presión por cerrar. No lo trates como improvisado: valora sentirse bien atendido.",
+  show:"Vinos de gama media-alta con buena reputación, etiquetas confiables pero con asesoramiento detrás, y opciones aptas para regalo o una buena cena.",
+  wa:"¡Hola! Qué bueno que quieras explorar un poco más el mundo del vino. Te puedo orientar tranquilo para que elijas con confianza. Contame para qué ocasión lo buscás y qué estilo solés disfrutar, y te recomiendo algo que te va a gustar.",
+  next:"¿Es para disfrutar en casa, para una cena especial o para regalar?"},
+
+ {id:"conocedor",ic:"🎓",name:"Ya sabe de vinos",buyer:"Conocedor",
+  cares:"Información concreta y acceso a etiquetas que no encuentra en cualquier lado: bodegas boutique, novedades, añadas puntuales.",
+  tone:"Preciso, directo y con argumentos concretos: bodega, cepa, región, añada. De colega a colega. Respetá que sabe y dale data, no relato.",
+  avoid:"Explicarle lo obvio, las recomendaciones genéricas de góndola, y tratarlo como principiante. Ofrecerle “el Malbec que toma todo el mundo” lo aburre y lo aleja.",
+  show:"El diferencial de ATTOS: bodegas boutique, líneas premium, productos exclusivos y novedades que no están en el supermercado. Acá ganás contra el retail masivo.",
+  wa:"¡Hola! Tenemos varias etiquetas de bodegas chicas y cosas más exclusivas que capaz te interesan. Si buscás algo puntual, decime bodega o estilo y te confirmo disponibilidad al toque. También te paso las novedades que entraron.",
+  next:"¿Buscás algo puntual o querés que te pase las últimas novedades que tenemos?"},
+
+ {id:"profesional",ic:"🏪",name:"Restaurant o vinoteca",buyer:"Profesional",
+  cares:"Margen, rotación, stock continuo y entrega confiable. Es una decisión de negocio, no de consumo.",
+  tone:"Comercial y eficiente, en clave B2B: stock, rotación, margen, continuidad de abastecimiento, entrega y variedad por rango de precio. Cordial pero al grano, transmitiendo que ATTOS es un proveedor serio.",
+  avoid:"Hablarle como consumidor final (“qué rico está este vino”), improvisar con stock o entregas, y cualquier señal de que no podés garantizar continuidad. La informalidad acá resta confianza.",
+  show:"Lista mayorista, productos de alta rotación con buen margen, variedad para cubrir distintos rangos de carta, y condiciones claras de entrega y reposición.",
+  wa:"¡Hola! Soy de ATTOS, distribuidora de vinos y bebidas en La Plata. Trabajamos con vinotecas y restaurantes con lista mayorista, buena variedad y reposición constante. Si me contás qué tipo de local tenés, te armo una propuesta con foco en rotación y margen.",
+  next:"¿Qué tipo de local es y qué volumen mensual manejás aproximadamente?"}
+];
+
+/* ---- Identificador rápido ---- */
+const finder=document.getElementById('finder');
+let step=0;
+const flow={
+ 0:{q:"¿Para qué está comprando?",opts:[
+     {t:"Para él / consumo personal",go:1},
+     {t:"Para regalar",go:1},
+     {t:"Para su negocio (resto / vinoteca)",res:"profesional"}]},
+ 1:{q:"¿Cuánto sabe de vinos?",opts:[
+     {t:"Recién empieza",go:2},
+     {t:"Quiere aprender más",go:2},
+     {t:"Ya es entendido",res:"conocedor"}]},
+ 2:{q:"¿Qué edad aparenta?",opts:[
+     {t:"Joven (hasta ~30)",res:"joven"},
+     {t:"Adulto",res:"adulto"}]}
+};
+function renderFinder(){
+  const f=flow[step];
+  let h=`<p class="ft">Identificá al cliente</p><p class="fq">${f.q}</p><div class="opts">`;
+  f.opts.forEach((o,i)=>{h+=`<button class="opt" onclick="pick(${i})">${o.t}</button>`;});
+  h+=`</div>`;
+  if(step>0)h+=`<button class="reset" onclick="resetFinder()">← Empezar de nuevo</button>`;
+  finder.innerHTML=h;
+}
+function pick(i){
+  const o=flow[step].opts[i];
+  if(o.res){open(o.res);resetFinder();return;}
+  step=o.go;renderFinder();
+}
+function resetFinder(){step=0;renderFinder();}
+renderFinder();
+
+/* ---- Cards ---- */
+const grid=document.getElementById('grid');
+SEG.forEach(s=>{
+  const b=document.createElement('button');b.className='card';b.onclick=()=>open(s.id);
+  b.innerHTML=`<span class="ic">${s.ic}</span><span class="meta"><span class="nm">${s.name}</span><span class="bt">${s.buyer}</span></span><span class="arr">›</span>`;
+  grid.appendChild(b);
+});
+
+/* ---- Ficha ---- */
+let current=null;
+function open(id){
+  const s=SEG.find(x=>x.id===id);if(!s)return;current=s;
+  document.getElementById('f-ic').textContent=s.ic;
+  document.getElementById('f-name').textContent=s.name;
+  document.getElementById('f-buyer').textContent=s.buyer;
+  document.getElementById('f-cares').textContent=s.cares;
+  document.getElementById('f-tone').textContent=s.tone;
+  document.getElementById('f-avoid').textContent=s.avoid;
+  document.getElementById('f-show').textContent=s.show;
+  document.getElementById('f-wa').textContent='“'+s.wa+'”';
+  document.getElementById('f-next').textContent=s.next;
+  resetCopy();
+  document.getElementById('home').style.display='none';
+  document.getElementById('detail').classList.add('on');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function goHome(){
+  document.getElementById('detail').classList.remove('on');
+  document.getElementById('home').style.display='block';
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function resetCopy(){const b=document.getElementById('copyBtn');b.classList.remove('done');b.textContent='Copiar para WhatsApp';}
+function copyWA(){
+  if(!current)return;const txt=current.wa;
+  const done=()=>{const b=document.getElementById('copyBtn');b.classList.add('done');b.textContent='✓ Copiado';setTimeout(resetCopy,1800);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>fb(txt,done));
+  else fb(txt,done);
+}
+function fb(txt,cb){const t=document.createElement('textarea');t.value=txt;t.style.position='fixed';t.style.opacity='0';
+  document.body.appendChild(t);t.focus();t.select();try{document.execCommand('copy');cb();}catch(e){}document.body.removeChild(t);}
+</script>
+</body>
+</html>
